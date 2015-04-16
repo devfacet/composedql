@@ -26,50 +26,23 @@ var cql = require('composedql');
 Parses given composed query
 
 ```javascript
-var query = cql.parse('first_name,last_name,address.city,settings.foo.bar');
-
-// [
-//   {
-//     "type": "field",
-//     "name": "first_name"
-//   },
-//   {
-//     "type": "field",
-//     "name": "last_name"
-//   },
-//   {
-//     "type": "field",
-//     "name": "address",
-//     "properties": [
-//       {
-//         "type": "field",
-//         "name": "city"
-//       }
-//     ]
-//   },
-//   {
-//     "type": "field",
-//     "name": "settings",
-//     "properties": [
-//       {
-//         "type": "field",
-//         "name": "foo",
-//         "properties": [
-//           {
-//             "type": "field",
-//             "name": "bar",
-//             "properties": [
-//               {
-//                 "type": "field",
-//                 "name": "qux"
-//               }
-//             ]
-//           }
-//         ]
-//       }
-//     ]
-//   }
-// ]
+var query = cql.parse('first_name,last_name,address.city,settings.foo.bar.qux');
+```
+```javascript
+[ { type: 'field', name: 'first_name' },
+  { type: 'field', name: 'last_name' },
+  { type: 'field',
+    name: 'address',
+    properties: [ { type: 'field', name: 'city' } ] },
+  { type: 'field',
+    name: 'settings',
+    properties:
+     [ { type: 'field',
+         name: 'foo',
+         properties:
+          [ { type: 'field',
+              name: 'bar',
+              properties: [ { type: 'field', name: 'qux' } ] } ] } ] } ]
 ```
 
 ### License
