@@ -1,0 +1,46 @@
+{
+  "name": "composedql",
+  "version": "0.1.0",
+  "description": "ComposedQL is a module for parsing composed queries.",
+  "keywords": [
+    "composed",
+    "query",
+    "language",
+    "json",
+    "object",
+    "rest",
+    "resource",
+    "uri",
+    "url"
+  ],
+  "homepage": "http://github.com/cmfatih/composedql",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cmfatih/composedql.git"
+  },
+  "bugs": {
+    "url": "http://github.com/cmfatih/composedql/issues"
+  },
+  "license": "MIT",
+  "private": false,
+  "author": {
+    "name": "cmfatih",
+    "url": "http://github.com/cmfatih"
+  },
+  "contributors": [],
+  "main": "./index.js",
+  "scripts": {
+    "test": "mocha --timeout 10000 --reporter spec test/test-all.js",
+    "lint": "jshint --reporter node_modules/jshint-stylish/stylish.js `find . \\( -path \\*node_modules\\* -prune -o -name \\*.js \\) -type f | awk 'NR>1{printf \" \"}{printf $0}'`"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "mocha": "2.2.x",
+    "chai": "2.2.x",
+    "jshint": "^2.7.0",
+    "jshint-stylish": "^1.0.1"
+  }
+}
