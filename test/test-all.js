@@ -9,57 +9,187 @@ var cql    = require('../lib/composedql'),
 
 describe('composedql', function() {
 
-  it('should parse query correctly', function(done) {
-    var query = cql.parse('first_name,last_name,address.city,settings.foo.bar');
+  describe('parseError', function() {
 
-    expect(query).to.be.a('array');
+    it('should parse error - throw', function(done) {
+      var func = function() { cql.parseError('test'); };
+      expect(func).to.throw('test');
+      done();
+    });
+    it('should parse error - no throw', function(done) {
+      expect(cql.parseError('test', {throwError: false})).to.equal(false);
+      done();
+    });
 
-    expect(query[0]).to.have.property('type', 'field');
-    expect(query[0]).to.have.property('name', 'first_name');
-
-    expect(query[1]).to.have.property('type', 'field');
-    expect(query[1]).to.have.property('name', 'last_name');
-
-    expect(query[2]).to.have.property('type', 'field');
-    expect(query[2]).to.have.property('name', 'address');
-    expect(query[2]).to.have.property('properties').to.be.a('array');
-    expect(query[2].properties[0]).to.have.property('type', 'field');
-    expect(query[2].properties[0]).to.have.property('name', 'city');
-
-    expect(query[3]).to.have.property('type', 'field');
-    expect(query[3]).to.have.property('name', 'settings');
-    expect(query[3]).to.have.property('properties').to.be.a('array');
-    expect(query[3].properties[0]).to.have.property('type', 'field');
-    expect(query[3].properties[0]).to.have.property('name', 'foo');
-    expect(query[3].properties[0].properties[0]).to.have.property('type', 'field');
-    expect(query[3].properties[0].properties[0]).to.have.property('name', 'bar');
-
-    done();
   });
-  it('should parse query correctly (trim)', function(done) {
-    var query = cql.parse('first_name, last_name');
 
-    expect(query).to.be.a('array');
+  describe('parseField', function() {
 
-    expect(query[0]).to.have.property('type', 'field');
-    expect(query[0]).to.have.property('name', 'first_name');
+    it('should parse field - simple field', function(done) {
+      var query = cql.parseField('username');
 
-    expect(query[1]).to.have.property('type', 'field');
-    expect(query[1]).to.have.property('name', 'last_name');
+      expect(query).to.be.a('object');
+      expect(query).to.have.property('type', 'field');
+      expect(query).to.have.property('name', 'username');
+      done();
+    });
+    it('should parse field - nested field', function(done) {
+      var query = cql.parseField('location.city');
 
-    done();
+      expect(query).to.be.a('object');
+      expect(query).to.have.property('type', 'field');
+      expect(query).to.have.property('name', 'location');
+      expect(query).to.have.property('properties').to.be.a('array');
+      expect(query.properties[0]).to.have.property('type', 'field');
+      expect(query.properties[0]).to.have.property('name', 'city');
+      done();
+    });
+    it('should parse field - multi nested field', function(done) {
+      var query = cql.parseField('settings.foo.bar');
+
+      expect(query).to.be.a('object');
+      expect(query).to.have.property('type', 'field');
+      expect(query).to.have.property('name', 'settings');
+      expect(query).to.have.property('properties').to.be.a('array');
+      expect(query.properties[0]).to.have.property('type', 'field');
+      expect(query.properties[0]).to.have.property('name', 'foo');
+      expect(query.properties[1]).to.have.property('type', 'field');
+      expect(query.properties[1]).to.have.property('name', 'bar');
+      done();
+    });
+
+    it('should parse field - trim field', function(done) {
+      var query = cql.parseField(' field1 ');
+
+      expect(query).to.be.a('object');
+      expect(query).to.have.property('type', 'field');
+      expect(query).to.have.property('name', 'field1');
+      done();
+    });
+
+    it('should fail to parse field - invalid field', function(done) {
+      expect(cql.parseField).to.throw('invalid field');
+      done();
+    });
+    it('should fail to parse field - invalid context', function(done) {
+      var func = function() { cql.parseField('field1', {}); };
+      expect(func).to.throw('invalid context');
+      done();
+    });
+    it('should fail to parse field - invalid field - no throw', function(done) {
+      expect(cql.parse({}, {throwError: false})).to.equal(false);
+      done();
+    });
+
   });
-  it('should parse query correctly (empty)', function(done) {
-    var query = cql.parse(',');
 
-    expect(query).to.be.a('null');
+  describe('parse', function() {
 
-    done();
-  });
-  it('should fail to parse query', function(done) {
-    expect(cql.parse).to.throw('Invalid input');
+    it('should parse query - simple field', function(done) {
+      var query = cql.parse('username');
 
-    done();
+      expect(query).to.be.a('array');
+      expect(query[0]).to.have.property('type', 'field');
+      expect(query[0]).to.have.property('name', 'username');
+      done();
+    });
+    it('should parse query - nested field', function(done) {
+      var query = cql.parse('location.city');
+
+      expect(query).to.be.a('array');
+      expect(query[0]).to.have.property('type', 'field');
+      expect(query[0]).to.have.property('name', 'location');
+      expect(query[0]).to.have.property('properties').to.be.a('array');
+      expect(query[0].properties[0]).to.have.property('type', 'field');
+      expect(query[0].properties[0]).to.have.property('name', 'city');
+      done();
+    });
+    it('should parse query - multi nested field', function(done) {
+      var query = cql.parse('settings.foo.bar');
+
+      expect(query).to.be.a('array');
+      expect(query[0]).to.have.property('type', 'field');
+      expect(query[0]).to.have.property('name', 'settings');
+      expect(query[0]).to.have.property('properties').to.be.a('array');
+      expect(query[0].properties[0]).to.have.property('type', 'field');
+      expect(query[0].properties[0]).to.have.property('name', 'foo');
+      expect(query[0].properties[1]).to.have.property('type', 'field');
+      expect(query[0].properties[1]).to.have.property('name', 'bar');
+      done();
+    });
+    it('should parse query - resource field (simple field)', function(done) {
+      var query = cql.parse('~photo(profile,cover)');
+
+      expect(query).to.be.a('array');
+      expect(query[0]).to.have.property('type', 'resource');
+      expect(query[0]).to.have.property('name', 'photo');
+      expect(query[0]).to.have.property('fields').to.be.a('array');
+      expect(query[0].fields[0]).to.have.property('type', 'field');
+      expect(query[0].fields[0]).to.have.property('name', 'profile');
+      expect(query[0].fields[1]).to.have.property('type', 'field');
+      expect(query[0].fields[1]).to.have.property('name', 'cover');
+      done();
+    });
+    it('should parse query - resource field (nested field)', function(done) {
+      var query = cql.parse('~activity(login.date)');
+
+      expect(query).to.be.a('array');
+      expect(query[0]).to.have.property('type', 'resource');
+      expect(query[0]).to.have.property('name', 'activity');
+      expect(query[0]).to.have.property('fields').to.be.a('array');
+      expect(query[0].fields[0]).to.have.property('type', 'field');
+      expect(query[0].fields[0]).to.have.property('name', 'login');
+      expect(query[0].fields[0]).to.have.property('properties').to.be.a('array');
+      expect(query[0].fields[0].properties[0]).to.have.property('type', 'field');
+      expect(query[0].fields[0].properties[0]).to.have.property('name', 'date');
+      done();
+    });
+    it('should parse query - resource field (no field)', function(done) {
+      var query = cql.parse('~foo');
+
+      expect(query).to.be.a('array');
+      expect(query[0]).to.have.property('type', 'resource');
+      expect(query[0]).to.have.property('name', 'foo');
+      done();
+    });
+
+    it('should parse query - trim fields', function(done) {
+      var query = cql.parse(' field1, field2 ,field3 ');
+      expect(query).to.be.a('array');
+      expect(query[0]).to.have.property('type', 'field');
+      expect(query[0]).to.have.property('name', 'field1');
+      expect(query[1]).to.have.property('type', 'field');
+      expect(query[1]).to.have.property('name', 'field2');
+      expect(query[2]).to.have.property('type', 'field');
+      expect(query[2]).to.have.property('name', 'field3');
+      done();
+    });
+
+    it('should parse query and return null due to empty arg', function(done) {
+      var query = cql.parse('');
+      expect(query).to.be.a('null');
+      done();
+    });
+    it('should parse query and return null due to empty arg - comma', function(done) {
+      var query = cql.parse(',');
+      expect(query).to.be.a('null');
+      done();
+    });
+
+    it('should fail to parse query - invalid query', function(done) {
+      expect(cql.parse).to.throw('invalid query');
+      done();
+    });
+    it('should fail to parse query - invalid parentheses', function(done) {
+      var func = function() { cql.parse('field1,~field2())'); };
+      expect(func).to.throw('invalid parentheses');
+      done();
+    });
+    it('should fail to parse query - invalid query - no throw', function(done) {
+      expect(cql.parse({}, {throwError: false})).to.equal(false);
+      done();
+    });
+
   });
 
 });
