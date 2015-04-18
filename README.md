@@ -18,6 +18,17 @@ ComposedQL is a query language that aims URI friendly queries.
 - High performance query parsing
 - Exchangeable and human readable/writable
 
+### Specification
+(*work in progress*)
+
+- Commas are separators for fields
+- Fields represent object properties
+- Dots are accessors for accessing object properties
+- Tildes are identifier for resources
+- Resources point different data structures
+- Parentheses are separators for resource contexts
+- Resource contexts contain fields for their resources
+
 This repository provides composed query parser and specifications.
 
 ### Installation
