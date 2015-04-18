@@ -5,7 +5,7 @@
 ComposedQL is a query language that aims URI friendly queries.
 
 
-This module provides composed query parser and specifications.
+This repository provides composed query parser and specifications.
 
 ### Installation
 
