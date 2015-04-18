@@ -1,7 +1,5 @@
 ## ComposedQL
 
-**!!! UNDER DEVELOPMENT !!!**
-
 [![NPM][npm-image]][npm-url] [![Build Status][travis-image]][travis-url]
 
 ComposedQL is a query language that aims URI friendly queries.
@@ -26,23 +24,36 @@ var cql = require('composedql');
 Parses given composed query
 
 ```javascript
-var query = cql.parse('first_name,last_name,address.city,settings.foo.bar.qux');
+cql.parse('username,location.city,settings.foo.bar');
 ```
 ```javascript
-[ { type: 'field', name: 'first_name' },
-  { type: 'field', name: 'last_name' },
+[ { type: 'field', name: 'username' },
   { type: 'field',
-    name: 'address',
+    name: 'location',
     properties: [ { type: 'field', name: 'city' } ] },
   { type: 'field',
     name: 'settings',
     properties:
+     [ { type: 'field', name: 'foo' },
+       { type: 'field', name: 'bar' } ] } ]
+```
+
+```javascript
+cql.parse('username,~photo(profile,cover),~activity(login.date)');
+```
+```javascript
+[ { type: 'field', name: 'username' },
+  { type: 'resource',
+    name: 'photo',
+    fields:
+     [ { type: 'field', name: 'profile' },
+       { type: 'field', name: 'cover' } ] },
+  { type: 'resource',
+    name: 'activity',
+    fields:
      [ { type: 'field',
-         name: 'foo',
-         properties:
-          [ { type: 'field',
-              name: 'bar',
-              properties: [ { type: 'field', name: 'qux' } ] } ] } ] } ]
+         name: 'login',
+         properties: [ { type: 'field', name: 'date' } ] } ] } ]
 ```
 
 ### License
