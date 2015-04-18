@@ -29,6 +29,8 @@ ComposedQL is a query language that aims URI friendly queries.
 - Parentheses are separators for resource contexts
 - Resource contexts contain fields for their resources
 
+### Notes
+
 This repository provides composed query parser and specifications.
 
 ### Installation
