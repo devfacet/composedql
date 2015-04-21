@@ -1,5 +1,9 @@
 ## Changelog
 
+### 0.3.0 (2015-04-20)
+
+Add path info
+
 ### 0.2.0 (2015-04-18)
 
 * Add resource fields
