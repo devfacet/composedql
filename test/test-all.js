@@ -29,47 +29,75 @@ describe('composedql', function() {
       var query = cql.parseField('username');
 
       expect(query).to.be.a('object');
-      expect(query).to.have.property('type', 'field');
-      expect(query).to.have.property('name', 'username');
+      expect(query).to.deep.equal({type: 'field', name: 'username', path: 'username'});
       done();
     });
     it('should parse field - nested field', function(done) {
       var query = cql.parseField('location.city');
 
       expect(query).to.be.a('object');
-      expect(query).to.have.property('type', 'field');
-      expect(query).to.have.property('name', 'location');
-      expect(query).to.have.property('path', 'location.city');
-      expect(query).to.have.property('properties').to.be.a('array');
-      expect(query.properties[0]).to.have.property('type', 'field');
-      expect(query.properties[0]).to.have.property('name', 'city');
+      expect(query).to.deep.equal({
+        type: 'field',
+        name: 'location',
+        path: 'location.city',
+        properties: [{type: 'field', name: 'city', path: 'city'}]
+      });
       done();
     });
     it('should parse field - multi nested field', function(done) {
       var query = cql.parseField('settings.foo.bar');
 
       expect(query).to.be.a('object');
-      expect(query).to.have.property('type', 'field');
-      expect(query).to.have.property('name', 'settings');
-      expect(query).to.have.property('path', 'settings.foo.bar');
-      expect(query).to.have.property('properties').to.be.a('array');
-      expect(query.properties[0]).to.have.property('type', 'field');
-      expect(query.properties[0]).to.have.property('name', 'foo');
-      expect(query.properties[1]).to.have.property('type', 'field');
-      expect(query.properties[1]).to.have.property('name', 'bar');
+      expect(query).to.deep.equal({
+        type: 'field',
+        name: 'settings',
+        path: 'settings.foo.bar',
+        properties: [
+          {type: 'field', name: 'foo', path: 'foo'},
+          {type: 'field', name: 'bar', path: 'bar'}
+        ]
+      });
       done();
     });
     it('should parse field - resource field (simple field)', function(done) {
       var query = cql.parseField('~photo', 'profile,cover');
 
       expect(query).to.be.a('object');
-      expect(query).to.have.property('type', 'resource');
-      expect(query).to.have.property('name', 'photo');
-      expect(query).to.have.property('fields').to.be.a('array');
-      expect(query.fields[0]).to.have.property('type', 'field');
-      expect(query.fields[0]).to.have.property('name', 'profile');
-      expect(query.fields[1]).to.have.property('type', 'field');
-      expect(query.fields[1]).to.have.property('name', 'cover');
+      expect(query).to.deep.equal({
+        type: 'resource',
+        name: 'photo',
+        fields: [
+          {type: 'field', name: 'profile', path: 'profile'},
+          {type: 'field', name: 'cover', path: 'cover'}
+        ]
+      });
+      done();
+    });
+    it('should parse field - resource field (nested field)', function(done) {
+      var query = cql.parseField('~activity', 'login.date');
+
+      expect(query).to.be.a('object');
+      expect(query).to.deep.equal({
+        type: 'resource',
+        name: 'activity',
+        fields: [
+          {
+            type: 'field',
+            name: 'login',
+            path: 'login.date',
+            properties: [
+              {type: 'field', name: 'date', path: 'date'}
+            ]
+          }
+        ]
+      });
+      done();
+    });
+    it('should parse field - resource field (no field)', function(done) {
+      var query = cql.parseField('~foo');
+
+      expect(query).to.be.a('object');
+      expect(query).to.deep.equal({type: 'resource', name: 'foo'});
       done();
     });
 
@@ -77,8 +105,7 @@ describe('composedql', function() {
       var query = cql.parseField(' field1 ');
 
       expect(query).to.be.a('object');
-      expect(query).to.have.property('type', 'field');
-      expect(query).to.have.property('name', 'field1');
+      expect(query).to.deep.equal({type: 'field', name: 'field1', path: 'field1'});
       done();
     });
 
@@ -104,68 +131,75 @@ describe('composedql', function() {
       var query = cql.parse('username');
 
       expect(query).to.be.a('array');
-      expect(query[0]).to.have.property('type', 'field');
-      expect(query[0]).to.have.property('name', 'username');
+      expect(query[0]).to.deep.equal({type: 'field', name: 'username', path: 'username'});
       done();
     });
     it('should parse query - nested field', function(done) {
       var query = cql.parse('location.city');
 
       expect(query).to.be.a('array');
-      expect(query[0]).to.have.property('type', 'field');
-      expect(query[0]).to.have.property('name', 'location');
-      expect(query[0]).to.have.property('path', 'location.city');
-      expect(query[0]).to.have.property('properties').to.be.a('array');
-      expect(query[0].properties[0]).to.have.property('type', 'field');
-      expect(query[0].properties[0]).to.have.property('name', 'city');
+      expect(query[0]).to.deep.equal({
+        type: 'field',
+        name: 'location',
+        path: 'location.city',
+        properties: [{type: 'field', name: 'city', path: 'city'}]
+      });
       done();
     });
     it('should parse query - multi nested field', function(done) {
       var query = cql.parse('settings.foo.bar');
 
       expect(query).to.be.a('array');
-      expect(query[0]).to.have.property('type', 'field');
-      expect(query[0]).to.have.property('name', 'settings');
-      expect(query[0]).to.have.property('path', 'settings.foo.bar');
-      expect(query[0]).to.have.property('properties').to.be.a('array');
-      expect(query[0].properties[0]).to.have.property('type', 'field');
-      expect(query[0].properties[0]).to.have.property('name', 'foo');
-      expect(query[0].properties[1]).to.have.property('type', 'field');
-      expect(query[0].properties[1]).to.have.property('name', 'bar');
+      expect(query[0]).to.deep.equal({
+        type: 'field',
+        name: 'settings',
+        path: 'settings.foo.bar',
+        properties: [
+          {type: 'field', name: 'foo', path: 'foo'},
+          {type: 'field', name: 'bar', path: 'bar'}
+        ]
+      });
       done();
     });
     it('should parse query - resource field (simple field)', function(done) {
       var query = cql.parse('~photo(profile,cover)');
 
       expect(query).to.be.a('array');
-      expect(query[0]).to.have.property('type', 'resource');
-      expect(query[0]).to.have.property('name', 'photo');
-      expect(query[0]).to.have.property('fields').to.be.a('array');
-      expect(query[0].fields[0]).to.have.property('type', 'field');
-      expect(query[0].fields[0]).to.have.property('name', 'profile');
-      expect(query[0].fields[1]).to.have.property('type', 'field');
-      expect(query[0].fields[1]).to.have.property('name', 'cover');
+      expect(query[0]).to.deep.equal({
+        type: 'resource',
+        name: 'photo',
+        fields: [
+          {type: 'field', name: 'profile', path: 'profile'},
+          {type: 'field', name: 'cover', path: 'cover'}
+        ]
+      });
       done();
     });
     it('should parse query - resource field (nested field)', function(done) {
       var query = cql.parse('~activity(login.date)');
 
       expect(query).to.be.a('array');
-      expect(query[0]).to.have.property('type', 'resource');
-      expect(query[0]).to.have.property('name', 'activity');
-      expect(query[0]).to.have.property('fields').to.be.a('array');
-      expect(query[0].fields[0]).to.have.property('type', 'field');
-      expect(query[0].fields[0]).to.have.property('name', 'login');
-      expect(query[0].fields[0]).to.have.property('path', 'login.date');
-      expect(query[0].fields[0]).to.have.property('properties').to.be.a('array');
-      expect(query[0].fields[0].properties[0]).to.have.property('type', 'field');
-      expect(query[0].fields[0].properties[0]).to.have.property('name', 'date');
+      expect(query[0]).to.deep.equal({
+        type: 'resource',
+        name: 'activity',
+        fields: [
+          {
+            type: 'field',
+            name: 'login',
+            path: 'login.date',
+            properties: [
+              {type: 'field', name: 'date', path: 'date'}
+            ]
+          }
+        ]
+      });
       done();
     });
     it('should parse query - resource field (no field)', function(done) {
       var query = cql.parse('~foo');
 
       expect(query).to.be.a('array');
+      expect(query[0]).to.deep.equal({type: 'resource', name: 'foo'});
       expect(query[0]).to.have.property('type', 'resource');
       expect(query[0]).to.have.property('name', 'foo');
       done();
@@ -174,12 +208,9 @@ describe('composedql', function() {
     it('should parse query - trim fields', function(done) {
       var query = cql.parse(' field1, field2 ,field3 ');
       expect(query).to.be.a('array');
-      expect(query[0]).to.have.property('type', 'field');
-      expect(query[0]).to.have.property('name', 'field1');
-      expect(query[1]).to.have.property('type', 'field');
-      expect(query[1]).to.have.property('name', 'field2');
-      expect(query[2]).to.have.property('type', 'field');
-      expect(query[2]).to.have.property('name', 'field3');
+      expect(query[0]).to.deep.equal({type: 'field', name: 'field1', path: 'field1'});
+      expect(query[1]).to.deep.equal({type: 'field', name: 'field2', path: 'field2'});
+      expect(query[2]).to.deep.equal({type: 'field', name: 'field3', path: 'field3'});
       done();
     });
 
