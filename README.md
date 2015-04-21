@@ -53,36 +53,54 @@ Parses given composed query
 cql.parse('username,location.city,settings.foo.bar');
 ```
 ```javascript
-[ { type: 'field', name: 'username' },
+[ { type: 'field',
+    name: 'username',
+    path: 'username' },
   { type: 'field',
     name: 'location',
     path: 'location.city',
-    properties: [ { type: 'field', name: 'city' } ] },
+    properties:
+     [ { type: 'field',
+         name: 'city',
+         path: 'city' } ] },
   { type: 'field',
     name: 'settings',
     path: 'settings.foo.bar',
     properties:
-     [ { type: 'field', name: 'foo' },
-       { type: 'field', name: 'bar' } ] } ]
+     [ { type: 'field',
+         name: 'foo',
+         path: 'foo' },
+       { type: 'field',
+         name: 'bar',
+         path: 'bar' } ] } ]
 ```
 
 ```javascript
 cql.parse('username,~photo(profile,cover),~activity(login.date)');
 ```
 ```javascript
-[ { type: 'field', name: 'username' },
+[ { type: 'field',
+    name: 'username',
+    path: 'username' },
   { type: 'resource',
     name: 'photo',
     fields:
-     [ { type: 'field', name: 'profile' },
-       { type: 'field', name: 'cover' } ] },
+     [ { type: 'field',
+         name: 'profile',
+         path: 'profile' },
+       { type: 'field',
+         name: 'cover',
+         path: 'cover' } ] },
   { type: 'resource',
     name: 'activity',
     fields:
      [ { type: 'field',
          name: 'login',
          path: 'login.date',
-         properties: [ { type: 'field', name: 'date' } ] } ] } ]
+         properties:
+          [ { type: 'field',
+              name: 'date',
+              path: 'date' } ] } ] } ]
 ```
 
 ### License
