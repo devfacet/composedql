@@ -1,8 +1,12 @@
 ## Changelog
 
+### 0.4.0 (2015-04-21)
+
+* Always return field path for consistency
+
 ### 0.3.0 (2015-04-20)
 
-Add path info
+* Add path info
 
 ### 0.2.0 (2015-04-18)
 
