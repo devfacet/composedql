@@ -39,6 +39,7 @@ describe('composedql', function() {
       expect(query).to.be.a('object');
       expect(query).to.have.property('type', 'field');
       expect(query).to.have.property('name', 'location');
+      expect(query).to.have.property('path', 'location.city');
       expect(query).to.have.property('properties').to.be.a('array');
       expect(query.properties[0]).to.have.property('type', 'field');
       expect(query.properties[0]).to.have.property('name', 'city');
@@ -50,11 +51,25 @@ describe('composedql', function() {
       expect(query).to.be.a('object');
       expect(query).to.have.property('type', 'field');
       expect(query).to.have.property('name', 'settings');
+      expect(query).to.have.property('path', 'settings.foo.bar');
       expect(query).to.have.property('properties').to.be.a('array');
       expect(query.properties[0]).to.have.property('type', 'field');
       expect(query.properties[0]).to.have.property('name', 'foo');
       expect(query.properties[1]).to.have.property('type', 'field');
       expect(query.properties[1]).to.have.property('name', 'bar');
+      done();
+    });
+    it('should parse field - resource field (simple field)', function(done) {
+      var query = cql.parseField('~photo', 'profile,cover');
+
+      expect(query).to.be.a('object');
+      expect(query).to.have.property('type', 'resource');
+      expect(query).to.have.property('name', 'photo');
+      expect(query).to.have.property('fields').to.be.a('array');
+      expect(query.fields[0]).to.have.property('type', 'field');
+      expect(query.fields[0]).to.have.property('name', 'profile');
+      expect(query.fields[1]).to.have.property('type', 'field');
+      expect(query.fields[1]).to.have.property('name', 'cover');
       done();
     });
 
@@ -99,6 +114,7 @@ describe('composedql', function() {
       expect(query).to.be.a('array');
       expect(query[0]).to.have.property('type', 'field');
       expect(query[0]).to.have.property('name', 'location');
+      expect(query[0]).to.have.property('path', 'location.city');
       expect(query[0]).to.have.property('properties').to.be.a('array');
       expect(query[0].properties[0]).to.have.property('type', 'field');
       expect(query[0].properties[0]).to.have.property('name', 'city');
@@ -110,6 +126,7 @@ describe('composedql', function() {
       expect(query).to.be.a('array');
       expect(query[0]).to.have.property('type', 'field');
       expect(query[0]).to.have.property('name', 'settings');
+      expect(query[0]).to.have.property('path', 'settings.foo.bar');
       expect(query[0]).to.have.property('properties').to.be.a('array');
       expect(query[0].properties[0]).to.have.property('type', 'field');
       expect(query[0].properties[0]).to.have.property('name', 'foo');
@@ -139,6 +156,7 @@ describe('composedql', function() {
       expect(query[0]).to.have.property('fields').to.be.a('array');
       expect(query[0].fields[0]).to.have.property('type', 'field');
       expect(query[0].fields[0]).to.have.property('name', 'login');
+      expect(query[0].fields[0]).to.have.property('path', 'login.date');
       expect(query[0].fields[0]).to.have.property('properties').to.be.a('array');
       expect(query[0].fields[0].properties[0]).to.have.property('type', 'field');
       expect(query[0].fields[0].properties[0]).to.have.property('name', 'date');

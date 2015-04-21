@@ -56,9 +56,11 @@ cql.parse('username,location.city,settings.foo.bar');
 [ { type: 'field', name: 'username' },
   { type: 'field',
     name: 'location',
+    path: 'location.city',
     properties: [ { type: 'field', name: 'city' } ] },
   { type: 'field',
     name: 'settings',
+    path: 'settings.foo.bar',
     properties:
      [ { type: 'field', name: 'foo' },
        { type: 'field', name: 'bar' } ] } ]
@@ -79,6 +81,7 @@ cql.parse('username,~photo(profile,cover),~activity(login.date)');
     fields:
      [ { type: 'field',
          name: 'login',
+         path: 'login.date',
          properties: [ { type: 'field', name: 'date' } ] } ] } ]
 ```
 
