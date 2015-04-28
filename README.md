@@ -2,13 +2,13 @@
 
 [![NPM][npm-image]][npm-url] [![Build Status][travis-image]][travis-url]
 
-ComposedQL is a query language that aims URI friendly queries.
+ComposedQL is a query language that aims URI friendly queries for RESTful APIs.
 
 ### Use Cases
 
 - Composing data queries with efficient way
 - Selecting only a subset of data
-- Filtering sensitive data
+- Filtering sensitive information
 - Creating authZ compatible API endpoints
 - Implementing middleware caching and routing
 
@@ -16,7 +16,7 @@ ComposedQL is a query language that aims URI friendly queries.
 
 - URI friendly queries
 - High performance query parsing
-- Exchangeable and human readable/writable
+- Exchangeable and human readable/writable structure
 
 ### Specification
 (*work in progress*)
