@@ -21,13 +21,16 @@ ComposedQL is a query language that aims URI friendly queries for RESTful APIs.
 ### Specification
 (*work in progress*)
 
-- Commas are separators for fields
 - Fields represent object properties
+- Commas are separators for fields
+  - `foo,bar`
 - Dots are accessors for accessing object properties
-- Tildes are identifier for resources
+  - `foo,bar.qux`
 - Resources point different data structures
-- Parentheses are wrapper for resource contexts
-- Resource contexts contain fields for their resources
+- Tildes are identifier for resources
+  - `~resource`
+- Parentheses are wrapper for scoping
+  -  `~resource(a,b)`
 
 ### Notes
 
