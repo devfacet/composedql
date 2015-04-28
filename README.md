@@ -29,7 +29,7 @@ ComposedQL is a query language that aims URI friendly queries for RESTful APIs.
 - Resources point different data structures
 - Tildes are identifier for resources
   - `~resource`
-- Parentheses are wrapper for scoping
+- Parentheses are wrapper for scope
   -  `~resource(a,b)`
 
 ### Notes
