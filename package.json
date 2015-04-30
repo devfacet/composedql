@@ -30,7 +30,7 @@
   "contributors": [],
   "main": "./index.js",
   "scripts": {
-    "test": "mocha --timeout 10000 --reporter spec test/test-all.js",
+    "test": "mocha --timeout 10000 --reporter spec test/test-*.js",
     "lint": "jshint --reporter node_modules/jshint-stylish/stylish.js `find . \\( -path \\*node_modules\\* -prune -o -name \\*.js \\) -type f | awk 'NR>1{printf \" \"}{printf $0}'`"
   },
   "engines": {
