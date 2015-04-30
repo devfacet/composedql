@@ -30,7 +30,7 @@ describe('composedql', function() {
         properties: [{name: 'foo', type: 'property'}]
       });
 
-      var query = cql.parse('test.foo.bar');
+      query = cql.parse('test.foo.bar');
 
       expect(query).to.be.a('array');
       expect(query[0]).to.deep.equal({
@@ -43,7 +43,7 @@ describe('composedql', function() {
         ]
       });
 
-      var query = cql.parse('test.foo.bar.baz');
+      query = cql.parse('test.foo.bar.baz');
 
       expect(query).to.be.a('array');
       expect(query[0]).to.deep.equal({
@@ -66,7 +66,7 @@ describe('composedql', function() {
       expect(query).to.be.a('array');
       expect(query[0]).to.deep.equal({name: 'test', type: 'resource', source: '~test'});
 
-      var query = cql.parse('~test()');
+      query = cql.parse('~test()');
 
       expect(query).to.be.a('array');
       expect(query[0]).to.deep.equal({
@@ -90,7 +90,7 @@ describe('composedql', function() {
         fields: [{name: 'foo', type: 'field', source: 'foo'}]
       });
 
-      var query = cql.parse('~test(foo.bar)');
+      query = cql.parse('~test(foo.bar)');
 
       expect(query).to.be.a('array');
       expect(query[0]).to.deep.equal({
@@ -105,7 +105,7 @@ describe('composedql', function() {
         }]
       });
 
-      var query = cql.parse('~test(foo.bar.baz)');
+      query = cql.parse('~test(foo.bar.baz)');
 
       expect(query).to.be.a('array');
       expect(query[0]).to.deep.equal({
@@ -123,7 +123,7 @@ describe('composedql', function() {
         }]
       });
 
-      var query = cql.parse('~test(foo,bar)');
+      query = cql.parse('~test(foo,bar)');
 
       expect(query).to.be.a('array');
       expect(query[0]).to.deep.equal({
@@ -171,7 +171,7 @@ describe('composedql', function() {
         args: [{name: 'foo', type: 'arg', source: 'foo'}]
       });
 
-      var query = cql.parse('test(foo,bar)');
+      query = cql.parse('test(foo,bar)');
 
       expect(query).to.be.a('array');
       expect(query[0]).to.deep.equal({
@@ -184,7 +184,7 @@ describe('composedql', function() {
         ]
       });
 
-      var query = cql.parse('test(foo.bar)');
+      query = cql.parse('test(foo.bar)');
 
       expect(query).to.be.a('array');
       expect(query[0]).to.deep.equal({
@@ -199,7 +199,7 @@ describe('composedql', function() {
         }]
       });
 
-      var query = cql.parse('test(foo.bar.baz)');
+      query = cql.parse('test(foo.bar.baz)');
 
       expect(query).to.be.a('array');
       expect(query[0]).to.deep.equal({
@@ -235,7 +235,7 @@ describe('composedql', function() {
         }]
       });
 
-      var query = cql.parse('test.foo(bar.baz)');
+      query = cql.parse('test.foo(bar.baz)');
 
       expect(query).to.be.a('array');
       expect(query[0]).to.deep.equal({
@@ -256,7 +256,7 @@ describe('composedql', function() {
         }]
       });
 
-      var query = cql.parse('test.foo(bar,baz)');
+      query = cql.parse('test.foo(bar,baz)');
 
       expect(query).to.be.a('array');
       expect(query[0]).to.deep.equal({
@@ -291,7 +291,7 @@ describe('composedql', function() {
         }]
       });
 
-      var query = cql.parse('~test.foo(bar.baz)');
+      query = cql.parse('~test.foo(bar.baz)');
 
       expect(query).to.be.a('array');
       expect(query[0]).to.deep.equal({
@@ -312,7 +312,7 @@ describe('composedql', function() {
         }]
       });
 
-      var query = cql.parse('~test.foo(bar,baz)');
+      query = cql.parse('~test.foo(bar,baz)');
 
       expect(query).to.be.a('array');
       expect(query[0]).to.deep.equal({
@@ -345,7 +345,7 @@ describe('composedql', function() {
       var query = cql.parse('');
       expect(query).to.be.a('null');
 
-      var query = cql.parse(',');
+      query = cql.parse(',');
       expect(query).to.be.a('null');
 
       done();

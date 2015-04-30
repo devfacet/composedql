@@ -38,7 +38,7 @@ describe('composedql', function() {
         properties: [{name: 'foo', type: 'property'}]
       });
 
-      var query = cql.parseField('test.foo.bar');
+      query = cql.parseField('test.foo.bar');
 
       expect(query).to.be.a('object');
       expect(query).to.deep.equal({
