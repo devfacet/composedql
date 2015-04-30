@@ -1,5 +1,13 @@
 ## Changelog
 
+### 0.5.0 (2015-04-30)
+
+* Add field functions
+* Add property, function and arg type
+* Add source info
+* Remove path info
+* Split tests
+
 ### 0.4.0 (2015-04-21)
 
 * Always return field path for consistency
