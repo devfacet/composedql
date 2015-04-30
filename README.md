@@ -52,54 +52,72 @@ Parses given composed query
 cql.parse('username,location.city,settings.foo.bar');
 ```
 ```javascript
-[ { type: 'field',
-    name: 'username',
-    path: 'username' },
-  { type: 'field',
-    name: 'location',
-    path: 'location.city',
+[ { name: 'username',
+    type: 'field',
+    source: 'username' },
+  { name: 'location',
+    type: 'field',
+    source: 'location.city',
+    properties: [ { name: 'city', type: 'property' } ] },
+  { name: 'settings',
+    type: 'field',
+    source: 'settings.foo.bar',
     properties:
-     [ { type: 'field',
-         name: 'city',
-         path: 'city' } ] },
-  { type: 'field',
-    name: 'settings',
-    path: 'settings.foo.bar',
-    properties:
-     [ { type: 'field',
-         name: 'foo',
-         path: 'foo' },
-       { type: 'field',
-         name: 'bar',
-         path: 'bar' } ] } ]
+     [ { name: 'foo', type: 'property' },
+       { name: 'bar', type: 'property' } ] } ]
 ```
 
 ```javascript
 cql.parse('username,~photo(profile,cover),~activity(login.date)');
 ```
 ```javascript
-[ { type: 'field',
-    name: 'username',
-    path: 'username' },
-  { type: 'resource',
-    name: 'photo',
+[ { name: 'username',
+    type: 'field',
+    source: 'username' },
+  { name: 'photo',
+    type: 'resource',
+    source: '~photo(profile,cover)',
     fields:
-     [ { type: 'field',
-         name: 'profile',
-         path: 'profile' },
-       { type: 'field',
-         name: 'cover',
-         path: 'cover' } ] },
-  { type: 'resource',
-    name: 'activity',
+     [ { name: 'profile',
+         type: 'field',
+         source: 'profile' },
+       { name: 'cover',
+         type: 'field',
+         source: 'cover' } ] },
+  { name: 'activity',
+    type: 'resource',
+    source: '~activity(login.date)',
     fields:
-     [ { type: 'field',
-         name: 'login',
-         path: 'login.date',
-         properties:
-          [ { type: 'field',
-              name: 'date',
-              path: 'date' } ] } ] } ]
+     [ { name: 'login',
+         type: 'field',
+         source: 'login.date',
+         properties: [ { name: 'date', type: 'property' } ] } ] } ]
+```
+
+```javascript
+cql.parse('username.id(foo),comments.from(today)');
+```
+```javascript
+[ { name: 'username',
+    type: 'field',
+    source: 'username.id(foo)',
+    properties:
+     [ { name: 'id',
+         type: 'function',
+         args:
+          [ { name: 'foo',
+              type: 'arg',
+              source: 'foo' } ] } ] },
+  { name: 'comments',
+    type: 'field',
+    source: 'comments.from(today)',
+    properties:
+     [ { name: 'from',
+         type: 'function',
+         args:
+          [ { name: 'today',
+              type: 'arg',
+              source: 'today' } ] } ] } ]
 ```
 
 ### License
