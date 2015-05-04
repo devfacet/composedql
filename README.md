@@ -60,31 +60,25 @@ var cql = require('composedql');
 Parses given composed query
 
 ```javascript
-cql.parse('username,location.city,settings.foo.bar');
+cql.parse(user,location.city');
 ```
 ```javascript
-[ { name: 'username',
+[ { name: 'user',
     type: 'field',
-    source: 'username' },
+    source: 'user' },
   { name: 'location',
     type: 'field',
     source: 'location.city',
-    properties: [ { name: 'city', type: 'property' } ] },
-  { name: 'settings',
-    type: 'field',
-    source: 'settings.foo.bar',
-    properties:
-     [ { name: 'foo', type: 'property' },
-       { name: 'bar', type: 'property' } ] } ]
+    properties: [ { name: 'city', type: 'property' } ] } ]
 ```
 
 ```javascript
-cql.parse('username,~photo(profile,cover),~activity(login.date)');
+cql.parse('user,~photo(profile,cover),~post(id,text).from(today)');
 ```
 ```javascript
-[ { name: 'username',
+[ { name: 'user',
     type: 'field',
-    source: 'username' },
+    source: 'user' },
   { name: 'photo',
     type: 'resource',
     source: '~photo(profile,cover)',
@@ -95,33 +89,16 @@ cql.parse('username,~photo(profile,cover),~activity(login.date)');
        { name: 'cover',
          type: 'field',
          source: 'cover' } ] },
-  { name: 'activity',
+  { name: 'post',
     type: 'resource',
-    source: '~activity(login.date)',
+    source: '~post(id,text).from(today)',
     fields:
-     [ { name: 'login',
-         type: 'field',
-         source: 'login.date',
-         properties: [ { name: 'date', type: 'property' } ] } ] } ]
-```
-
-```javascript
-cql.parse('username.id(foo),comments.from(today)');
-```
-```javascript
-[ { name: 'username',
-    type: 'field',
-    source: 'username.id(foo)',
-    properties:
      [ { name: 'id',
-         type: 'function',
-         args:
-          [ { name: 'foo',
-              type: 'arg',
-              source: 'foo' } ] } ] },
-  { name: 'comments',
-    type: 'field',
-    source: 'comments.from(today)',
+         type: 'field',
+         source: 'id' },
+       { name: 'text',
+         type: 'field',
+         source: 'text' } ],
     properties:
      [ { name: 'from',
          type: 'function',
