@@ -11,25 +11,17 @@ describe('composedql', function() {
 
   describe('parseField', function() {
 
-    it('should parse field - simple field', function(done) {
+    it('should parse field - field', function(done) {
       var query = cql.parseField('test');
 
       expect(query).to.be.a('object');
       expect(query).to.deep.equal({name: 'test', type: 'field', source: 'test'});
-      done();
-    });
 
-    it('should parse field - simple field - custom type', function(done) {
-      var query = cql.parseField('test', 'property');
-
+      query = cql.parseField('test', 'property');
       expect(query).to.be.a('object');
       expect(query).to.deep.equal({name: 'test', type: 'property'});
-      done();
-    });
 
-    it('should parse field - nested field', function(done) {
-      var query = cql.parseField('test.foo');
-
+      query = cql.parseField('test.foo');
       expect(query).to.be.a('object');
       expect(query).to.deep.equal({
         name: 'test',
@@ -62,7 +54,7 @@ describe('composedql', function() {
       done();
     });
 
-    it('should parse field - trim', function(done) {
+    it('should parse field - trim fields', function(done) {
       var query = cql.parseField(' test ');
 
       expect(query).to.be.a('object');
