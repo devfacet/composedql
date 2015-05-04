@@ -1,7 +1,7 @@
 {
   "name": "composedql",
   "version": "0.5.0",
-  "description": "A module for parsing composed queries.",
+  "description": "Composed query language parser",
   "keywords": [
     "composed",
     "query",
