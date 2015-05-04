@@ -60,7 +60,7 @@ var cql = require('composedql');
 Parses given composed query
 
 ```javascript
-cql.parse(user,location.city');
+cql.parse('user,location.city');
 ```
 ```javascript
 [ { name: 'user',
