@@ -12,7 +12,7 @@ ComposedQL is a query language that aims URI friendly queries for RESTful APIs.
 - Creating authZ compatible API endpoints
 - Improving caching and routing
 
-### Goals
+### Design Goals
 
 - URI friendly queries
 - High performance query parsing
