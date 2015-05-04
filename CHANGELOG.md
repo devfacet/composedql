@@ -1,5 +1,11 @@
 ## Changelog
 
+### 0.6.0 (2015-05-03)
+
+* Add chain functions
+* Add new tests
+* Improve parser
+
 ### 0.5.0 (2015-04-30)
 
 * Add field functions
