@@ -11,17 +11,13 @@ describe('composedql', function() {
 
   describe('parse', function() {
 
-    it('should parse query - simple field', function(done) {
+    it('should parse query - field', function(done) {
       var query = cql.parse('test');
 
       expect(query).to.be.a('array');
       expect(query[0]).to.deep.equal({name: 'test', type: 'field', source: 'test'});
-      done();
-    });
 
-    it('should parse query - nested field', function(done) {
-      var query = cql.parse('test.foo');
-
+      query = cql.parse('test.foo');
       expect(query).to.be.a('array');
       expect(query[0]).to.deep.equal({
         name: 'test',
@@ -31,7 +27,6 @@ describe('composedql', function() {
       });
 
       query = cql.parse('test.foo.bar');
-
       expect(query).to.be.a('array');
       expect(query[0]).to.deep.equal({
         name: 'test',
@@ -44,7 +39,6 @@ describe('composedql', function() {
       });
 
       query = cql.parse('test.foo.bar.baz');
-
       expect(query).to.be.a('array');
       expect(query[0]).to.deep.equal({
         name: 'test',
@@ -60,28 +54,30 @@ describe('composedql', function() {
       done();
     });
 
-    it('should parse query - resource field - no field', function(done) {
+    it('should parse query - resource field', function(done) {
       var query = cql.parse('~test');
 
       expect(query).to.be.a('array');
       expect(query[0]).to.deep.equal({name: 'test', type: 'resource', source: '~test'});
 
-      query = cql.parse('~test()');
-
+      query = cql.parse('~test.foo');
       expect(query).to.be.a('array');
       expect(query[0]).to.deep.equal({
         name: 'test',
         type: 'resource',
-        source: '~test()',
-        fields: null
+        source: '~test.foo',
+        properties: [{name: 'foo', type: 'property'}]
       });
 
-      done();
-    });
+      query = cql.parse('~test()');
+      expect(query).to.be.a('array');
+      expect(query[0]).to.deep.equal({
+        name: 'test',
+        type: 'resource',
+        source: '~test()'
+      });
 
-    it('should parse query - resource field - fields', function(done) {
-      var query = cql.parse('~test(foo)');
-
+      query = cql.parse('~test(foo)');
       expect(query).to.be.a('array');
       expect(query[0]).to.deep.equal({
         name: 'test',
@@ -91,7 +87,6 @@ describe('composedql', function() {
       });
 
       query = cql.parse('~test(foo.bar)');
-
       expect(query).to.be.a('array');
       expect(query[0]).to.deep.equal({
         name: 'test',
@@ -106,7 +101,6 @@ describe('composedql', function() {
       });
 
       query = cql.parse('~test(foo.bar.baz)');
-
       expect(query).to.be.a('array');
       expect(query[0]).to.deep.equal({
         name: 'test',
@@ -124,7 +118,6 @@ describe('composedql', function() {
       });
 
       query = cql.parse('~test(foo,bar)');
-
       expect(query).to.be.a('array');
       expect(query[0]).to.deep.equal({
         name: 'test',
@@ -139,30 +132,13 @@ describe('composedql', function() {
       done();
     });
 
-    it('should parse query - resource field - property', function(done) {
-      var query = cql.parse('~test.foo');
-
-      expect(query).to.be.a('array');
-      expect(query[0]).to.deep.equal({
-        name: 'test',
-        type: 'resource',
-        source: '~test.foo',
-        properties: [{name: 'foo', type: 'property'}]
-      });
-      done();
-    });
-
-    it('should parse query - simple function', function(done) {
+    it('should parse query - function', function(done) {
       var query = cql.parse('test()');
 
       expect(query).to.be.a('array');
       expect(query[0]).to.deep.equal({name: 'test', type: 'function', source: 'test()'});
-      done();
-    });
 
-    it('should parse query - simple function - args', function(done) {
-      var query = cql.parse('test(foo)');
-
+      query = cql.parse('test(foo)');
       expect(query).to.be.a('array');
       expect(query[0]).to.deep.equal({
         name: 'test',
@@ -171,21 +147,7 @@ describe('composedql', function() {
         args: [{name: 'foo', type: 'arg', source: 'foo'}]
       });
 
-      query = cql.parse('test(foo,bar)');
-
-      expect(query).to.be.a('array');
-      expect(query[0]).to.deep.equal({
-        name: 'test',
-        type: 'function',
-        source: 'test(foo,bar)',
-        args: [
-          {name: 'foo', type: 'arg', source: 'foo'},
-          {name: 'bar', type: 'arg', source: 'bar'}
-        ]
-      });
-
       query = cql.parse('test(foo.bar)');
-
       expect(query).to.be.a('array');
       expect(query[0]).to.deep.equal({
         name: 'test',
@@ -200,7 +162,6 @@ describe('composedql', function() {
       });
 
       query = cql.parse('test(foo.bar.baz)');
-
       expect(query).to.be.a('array');
       expect(query[0]).to.deep.equal({
         name: 'test',
@@ -215,6 +176,18 @@ describe('composedql', function() {
               {name: 'baz', type: 'property'}
             ]
         }]
+      });
+
+      query = cql.parse('test(foo,bar)');
+      expect(query).to.be.a('array');
+      expect(query[0]).to.deep.equal({
+        name: 'test',
+        type: 'function',
+        source: 'test(foo,bar)',
+        args: [
+          {name: 'foo', type: 'arg', source: 'foo'},
+          {name: 'bar', type: 'arg', source: 'bar'}
+        ]
       });
 
       done();
@@ -235,8 +208,23 @@ describe('composedql', function() {
         }]
       });
 
-      query = cql.parse('test.foo(bar.baz)');
+      query = cql.parse('test.foo.bar(baz)');
+      expect(query).to.be.a('array');
+      expect(query[0]).to.deep.equal({
+        name: 'test',
+        type: 'field',
+        source: 'test.foo.bar(baz)',
+        properties: [
+          {name: 'foo', type: 'property'},
+          {
+            name: 'bar',
+            type: 'function',
+            args: [{name: 'baz', type: 'arg', source: 'baz'}]
+          }
+        ]
+      });
 
+      query = cql.parse('test.foo(bar.baz)');
       expect(query).to.be.a('array');
       expect(query[0]).to.deep.equal({
         name: 'test',
@@ -249,15 +237,33 @@ describe('composedql', function() {
               name: 'bar',
               type: 'arg',
               source: 'bar.baz',
+              properties: [{name: 'baz', type: 'property'}]
+          }]
+        }]
+      });
+
+      query = cql.parse('test.foo(bar.baz.qux)');
+      expect(query).to.be.a('array');
+      expect(query[0]).to.deep.equal({
+        name: 'test',
+        type: 'field',
+        source: 'test.foo(bar.baz.qux)',
+        properties: [{
+          name: 'foo',
+          type: 'function',
+          args: [{
+              name: 'bar',
+              type: 'arg',
+              source: 'bar.baz.qux',
               properties: [
-                {name: 'baz', type: 'property'}
+                {name: 'baz', type: 'property'},
+                {name: 'qux', type: 'property'}
               ]
           }]
         }]
       });
 
       query = cql.parse('test.foo(bar,baz)');
-
       expect(query).to.be.a('array');
       expect(query[0]).to.deep.equal({
         name: 'test',
@@ -276,7 +282,32 @@ describe('composedql', function() {
       done();
     });
 
-    it('should parse query - resource field function', function(done) {
+    it('should parse query - field function - chain', function(done) {
+      var query = cql.parse('test.foo(bar).baz(qux)');
+
+      expect(query).to.be.a('array');
+      expect(query[0]).to.deep.equal({
+        name: 'test',
+        type: 'field',
+        source: 'test.foo(bar).baz(qux)',
+        properties: [
+          {
+            name: 'foo',
+            type: 'function',
+            args: [{name: 'bar', type: 'arg', source: 'bar'}]
+          },
+          {
+            name: 'baz',
+            type: 'function',
+            args: [{name: 'qux', type: 'arg', source: 'qux'}]
+          }
+        ]
+      });
+
+      done();
+    });
+
+    it('should parse query - resource field - field function', function(done) {
       var query = cql.parse('~test.foo(bar)');
 
       expect(query).to.be.a('array');
@@ -291,8 +322,23 @@ describe('composedql', function() {
         }]
       });
 
-      query = cql.parse('~test.foo(bar.baz)');
+      query = cql.parse('~test.foo.bar(baz)');
+      expect(query).to.be.a('array');
+      expect(query[0]).to.deep.equal({
+        name: 'test',
+        type: 'resource',
+        source: '~test.foo.bar(baz)',
+        properties: [
+          {name: 'foo', type: 'property'},
+          {
+            name: 'bar',
+            type: 'function',
+            args: [{name: 'baz', type: 'arg', source: 'baz'}]
+          }
+        ]
+      });
 
+      query = cql.parse('~test.foo(bar.baz)');
       expect(query).to.be.a('array');
       expect(query[0]).to.deep.equal({
         name: 'test',
@@ -305,15 +351,33 @@ describe('composedql', function() {
               name: 'bar',
               type: 'arg',
               source: 'bar.baz',
+              properties: [{name: 'baz', type: 'property'}]
+          }]
+        }]
+      });
+
+      query = cql.parse('~test.foo(bar.baz.qux)');
+      expect(query).to.be.a('array');
+      expect(query[0]).to.deep.equal({
+        name: 'test',
+        type: 'resource',
+        source: '~test.foo(bar.baz.qux)',
+        properties: [{
+          name: 'foo',
+          type: 'function',
+          args: [{
+              name: 'bar',
+              type: 'arg',
+              source: 'bar.baz.qux',
               properties: [
-                {name: 'baz', type: 'property'}
+                {name: 'baz', type: 'property'},
+                {name: 'qux', type: 'property'}
               ]
           }]
         }]
       });
 
       query = cql.parse('~test.foo(bar,baz)');
-
       expect(query).to.be.a('array');
       expect(query[0]).to.deep.equal({
         name: 'test',
@@ -327,6 +391,111 @@ describe('composedql', function() {
             {name: 'baz', type: 'arg', source: 'baz'}
           ]
         }]
+      });
+
+      done();
+    });
+
+    it('should parse query - resource field - field function - chain', function(done) {
+      var query = cql.parse('~test.foo(bar).baz(qux)');
+
+      expect(query).to.be.a('array');
+      expect(query[0]).to.deep.equal({
+        name: 'test',
+        type: 'resource',
+        source: '~test.foo(bar).baz(qux)',
+        properties: [
+          {
+            name: 'foo',
+            type: 'function',
+            args: [{name: 'bar', type: 'arg', source: 'bar'}]
+          },
+          {
+            name: 'baz',
+            type: 'function',
+            args: [{name: 'qux', type: 'arg', source: 'qux'}]
+          }
+        ]
+      });
+
+      done();
+    });
+
+    it('should parse query - function - chain', function(done) {
+      var query = cql.parse('test(foo).bar(baz)');
+
+      expect(query).to.be.a('array');
+      expect(query[0]).to.deep.equal({
+        name: 'test',
+        type: 'function',
+        source: 'test(foo).bar(baz)',
+        args: [{name: 'foo', type: 'arg', source: 'foo'}],
+        properties: [{
+          name: 'bar',
+          type: 'function',
+          args: [{name: 'baz', type: 'arg', source: 'baz'}]
+        }]
+      });
+
+      query = cql.parse('test(foo).bar(baz).qux(boom)');
+      expect(query).to.be.a('array');
+      expect(query[0]).to.deep.equal({
+        name: 'test',
+        type: 'function',
+        source: 'test(foo).bar(baz).qux(boom)',
+        args: [{name: 'foo', type: 'arg', source: 'foo'}],
+        properties: [
+          {
+            name: 'bar',
+            type: 'function',
+            args: [{name: 'baz', type: 'arg', source: 'baz'}]
+          },
+          {
+            name: 'qux',
+            type: 'function',
+            args: [{name: 'boom', type: 'arg', source: 'boom'}]
+          }
+        ]
+      });
+
+      done();
+    });
+
+    it('should parse query - resource field - chain', function(done) {
+      var query = cql.parse('~test(foo).bar(baz)');
+
+      expect(query).to.be.a('array');
+      expect(query[0]).to.deep.equal({
+        name: 'test',
+        type: 'resource',
+        source: '~test(foo).bar(baz)',
+        fields: [{name: 'foo', type: 'field', source: 'foo'}],
+        properties: [{
+          name: 'bar',
+          type: 'function',
+          args: [{name: 'baz', type: 'arg', source: 'baz'}]
+        }]
+      });
+
+      query = cql.parse('~test(foo).bar(baz).qux(boom)');
+      expect(query).to.be.a('array');
+      expect(query[0]).to.deep.equal({
+        name: 'test',
+        type: 'resource',
+        source: '~test(foo).bar(baz).qux(boom)',
+        fields: [{name: 'foo', type: 'field', source: 'foo'}],
+        properties: [
+          {
+            name: 'bar',
+            type: 'function',
+            args: [{name: 'baz', type: 'arg', source: 'baz'}]
+          },
+          {
+            name: 'qux',
+            type: 'function',
+            args: [{name: 'boom', type: 'arg', source: 'boom'}]
+          }
+        ]
       });
 
       done();
@@ -352,11 +521,10 @@ describe('composedql', function() {
     });
 
     it('should fail to parse query - invalid query', function(done) {
-      expect(cql.parse).to.throw('invalid query');
+      expect(cql.parse()).to.be.equal(null);
 
       var func = function() { cql.parse('field1,~field2())'); };
       expect(func).to.throw('invalid parentheses');
-
       expect(cql.parse({}, {throwError: false})).to.equal(false);
 
       done();
