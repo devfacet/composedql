@@ -21,12 +21,23 @@ ComposedQL is a query language that aims URI friendly queries for RESTful APIs.
 ### Specification
 (*work in progress*)
 
-- Fields represent object properties, resources or functions
-  - examples: `foo` (field), `~foo` (resource), `foo()` (function)
+- Fields represent object properties, resources or functions.
+  - Examples:
+    - `foo` - field
+    - `~foo` - resource
+    - `foo()` - function
 - Commas are separators for fields or function arguments
-  - examples; `foo,bar` (fields), `~foo(bar,baz)` (resource fields), `foo(bar,baz)` (function arguments)
+  - Examples;
+    - `foo,bar` - fields
+    - `~foo(bar,baz)` - resource fields
+    - `foo(bar,baz)` - function arguments
 - Dots are accessors for accessing nested fields or field functions
-  - examples; `foo.bar` (nested field), `~foo(bar.baz)` (nested resource field), `foo.bar()` (field function)
+  - Examples;
+    - `foo.bar` - nested field
+    - `~foo(bar.baz)` - nested resource field
+    - `foo.bar()` - field function
+    - `foo(bar).baz(qux)` - function chain
+    - `~foo(bar).baz(qux)` - resource field chain
 
 ### Notes
 
