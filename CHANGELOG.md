@@ -1,5 +1,9 @@
 ## Changelog
 
+### 0.7.0 (2015-07-26)
+
+* Misc. updates
+
 ### 0.6.0 (2015-05-03)
 
 * Add chain functions
