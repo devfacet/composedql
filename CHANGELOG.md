@@ -1,5 +1,13 @@
 ## Changelog
 
+### 0.7.3 (2016-03-20)
+
+* Maintenance
+
+### 0.7.2 (2016-03-20)
+
+* Maintenance
+
 ### 0.7.1 (2015-08-09)
 
 * Misc. updates
