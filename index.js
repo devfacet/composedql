@@ -1,6 +1,6 @@
 /*
  * ComposedQL
- * Copyright (c) 2015 Fatih Cetinkaya (http://github.com/cmfatih/composedql)
+ * Copyright (c) 2015 Fatih Cetinkaya (http://github.com/fatihcode/composedql)
  * For the full copyright and license information, please view the LICENSE.txt file.
  */
 

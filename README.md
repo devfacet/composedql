@@ -116,5 +116,5 @@ For the full copyright and license information, please view the LICENSE.txt file
 [npm-url]: http://npmjs.org/package/composedql
 [npm-image]: https://badge.fury.io/js/composedql.png
 
-[travis-url]: https://travis-ci.org/cmfatih/composedql
-[travis-image]: https://travis-ci.org/cmfatih/composedql.svg?branch=master
+[travis-url]: https://travis-ci.org/fatihcode/composedql
+[travis-image]: https://travis-ci.org/fatihcode/composedql.svg?branch=master
