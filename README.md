@@ -114,7 +114,7 @@ Licensed under The MIT License (MIT)
 For the full copyright and license information, please view the LICENSE.txt file.
 
 [npm-url]: http://npmjs.org/package/composedql
-[npm-image]: https://badge.fury.io/js/composedql.png
+[npm-image]: https://badge.fury.io/js/composedql.svg
 
 [travis-url]: https://travis-ci.org/fatihcode/composedql
 [travis-image]: https://travis-ci.org/fatihcode/composedql.svg?branch=master
