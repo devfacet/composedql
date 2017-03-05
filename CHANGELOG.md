@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.7.4 (2017-03-05)
+
+- Maintenance
+
 ## 0.7.3 (2016-03-20)
 
 - Maintenance
