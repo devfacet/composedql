@@ -1,50 +1,50 @@
-## Changelog
+# Changelog
 
-### 0.7.3 (2016-03-20)
+## 0.7.3 (2016-03-20)
 
-* Maintenance
+- Maintenance
 
-### 0.7.2 (2016-03-20)
+## 0.7.2 (2016-03-20)
 
-* Maintenance
+- Maintenance
 
-### 0.7.1 (2015-08-09)
+## 0.7.1 (2015-08-09)
 
-* Misc. updates
+- Misc. updates
 
-### 0.7.0 (2015-07-26)
+## 0.7.0 (2015-07-26)
 
-* Misc. updates
+- Misc. updates
 
-### 0.6.0 (2015-05-03)
+## 0.6.0 (2015-05-03)
 
-* Add chain functions
-* Add new tests
-* Improve parser
+- Add chain functions
+- Add new tests
+- Improve parser
 
-### 0.5.0 (2015-04-30)
+## 0.5.0 (2015-04-30)
 
-* Add field functions
-* Add property, function and arg type
-* Add source info
-* Remove path info
-* Split tests
+- Add field functions
+- Add property, function and arg type
+- Add source info
+- Remove path info
+- Split tests
 
-### 0.4.0 (2015-04-21)
+## 0.4.0 (2015-04-21)
 
-* Always return field path for consistency
+- Always return field path for consistency
 
-### 0.3.0 (2015-04-20)
+## 0.3.0 (2015-04-20)
 
-* Add path info
+- Add path info
 
-### 0.2.0 (2015-04-18)
+## 0.2.0 (2015-04-18)
 
-* Add resource fields
-* Change properties structure
-* Add more test
-* Refactoring code
+- Add resource fields
+- Change properties structure
+- Add more test
+- Refactoring code
 
-### 0.1.0 (2015-04-16)
+## 0.1.0 (2015-04-16)
 
-* Initial release
+- Initial release

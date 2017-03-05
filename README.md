@@ -1,10 +1,10 @@
-## ComposedQL
+# ComposedQL
 
 [![NPM][npm-image]][npm-url] [![Build Status][travis-image]][travis-url]
 
 ComposedQL is a query language that aims URI friendly queries for RESTful APIs.
 
-### Use Cases
+## Use Cases
 
 - Composing data queries with efficient way
 - Selecting only a subset of data
@@ -12,13 +12,14 @@ ComposedQL is a query language that aims URI friendly queries for RESTful APIs.
 - Creating authZ compatible API endpoints
 - Improving caching and routing
 
-### Design Goals
+## Design Goals
 
 - URI friendly queries
 - High performance query parsing
 - Exchangeable and human readable/writable structure
 
-### Specification
+## Specification
+
 (*work in progress*)
 
 - Fields represent object properties, resources or functions.
@@ -39,23 +40,23 @@ ComposedQL is a query language that aims URI friendly queries for RESTful APIs.
     - `foo(bar).baz(qux)` - function chain
     - `~foo(bar).baz(qux)` - resource field chain
 
-### Notes
+## Notes
 
 This repository provides composed query language parser and specifications.
 
-### Installation
+## Installation
 
-```
+```bash
 npm install composedql
 ```
 
-### Usage
+## Usage
 
 ```javascript
 var cql = require('composedql');
 ```
 
-#### parse
+### parse
 
 Parses given composed query
 
@@ -108,7 +109,7 @@ cql.parse('user,~photo(profile,cover),~post(id,text).from(today)');
               source: 'today' } ] } ] } ]
 ```
 
-### License
+## License
 
 Licensed under The MIT License (MIT)  
 For the full copyright and license information, please view the LICENSE.txt file.
@@ -116,5 +117,5 @@ For the full copyright and license information, please view the LICENSE.txt file
 [npm-url]: http://npmjs.org/package/composedql
 [npm-image]: https://badge.fury.io/js/composedql.svg
 
-[travis-url]: https://travis-ci.org/fatihcode/composedql
-[travis-image]: https://travis-ci.org/fatihcode/composedql.svg?branch=master
+[travis-url]: https://travis-ci.org/devfacet/composedql
+[travis-image]: https://travis-ci.org/devfacet/composedql.svg?branch=master
