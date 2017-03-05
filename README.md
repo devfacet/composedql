@@ -1,6 +1,6 @@
 # ComposedQL
 
-[![NPM][npm-image]][npm-url] [![Build Status][travis-image]][travis-url]
+[![NPM][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Coverage][coverage-image]][coverage-url]
 
 ComposedQL is a query language that aims URI friendly queries for RESTful APIs.
 
@@ -119,3 +119,6 @@ For the full copyright and license information, please view the LICENSE.txt file
 
 [travis-url]: https://travis-ci.org/devfacet/composedql
 [travis-image]: https://travis-ci.org/devfacet/composedql.svg?branch=master
+
+[coverage-url]: https://coveralls.io/github/devfacet/composedql?branch=master
+[coverage-image]: https://coveralls.io/repos/devfacet/composedql/badge.svg?branch=master&service=github
